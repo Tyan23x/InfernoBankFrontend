@@ -1,12 +1,24 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, InjectionToken, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
+
+export interface IAppConfig {
+  apiBaseURL: string  
+}
+
+export const APP_CONFIG = new InjectionToken<IAppConfig>('app.config');
+
+const configValue: IAppConfig = {
+  apiBaseURL: 'https://w7ykg0p614.execute-api.us-east-2.amazonaws.com/prod',
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
+    provideRouter(routes),
+    { provide: APP_CONFIG, useValue: configValue },
+    provideHttpClient()
   ]
 };
