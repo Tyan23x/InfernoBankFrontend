@@ -79,6 +79,14 @@ a {
     margin-left: 5px;
 }
 
+.card-dots button {
+    display: inline-block;
+    background-color: #000;
+    color: var(--primary-color);
+    border-color:  #00f2ea;
+    margin-left: 5px;
+}
+
 .card-body {
     padding: 1.5rem;
 }

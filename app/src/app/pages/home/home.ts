@@ -1,10 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { SessionService } from '../../services/session/session';
+import { Router, RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [RouterModule, LucideAngularModule],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

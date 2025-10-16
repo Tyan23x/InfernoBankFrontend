@@ -12,12 +12,21 @@
         <span>INFERNO_BANK</span>
       </div>
 
-      <div class="card-dots"><button class="submit-btn" data-text="LOGOUT" (click)="logout()">LOGOUT</button></div>
+      <div class="card-dots">
+        <button class="function-btn" data-text="PROFILE" routerLink="/update">
+           <i class="fa-solid fa-user"></i>
+        </button>
+        <button class="function-btn" data-text="LOGOUT" (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
       <h1>WELCOME_TO_INFERNO_BANK, {{ user?.data?.name || 'Usuario' }} </h1>
       <p>YOUR_TRUSTED_PARTNER_IN_THE_WORLD_OF_CRYPTOCURRENCIES</p>
+
+
       
   </div>
 

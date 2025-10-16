@@ -38,6 +38,16 @@ export function auth() {
           return throwError(() => err);
         })
       );
+    },
+
+    update: (address: string, number: string) => {
+      const body = { address, number};
+      return httpService.put<RegisterResponse>(`${config.apiBaseURL}/profile `,  body ).pipe(
+        catchError(err => {
+          console.error('Error en actualizar:', err);
+          return throwError(() => err);
+        })
+      );
     }
   };
 }

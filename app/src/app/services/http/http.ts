@@ -31,8 +31,23 @@ export class Http {
     });
   }
 
-  put<T>(url: string, body: any, options?: any) {
-    return this.http.put<T>(url, body, options);
+  put<T>(
+    url: string,
+    body: any,
+    options?: any
+  ): Observable<T> {
+
+    let httpParams = new HttpParams();
+    if (options){
+       Object.keys(options).forEach(key => {
+        httpParams = httpParams.set(key, options[key]);
+      });
+    }
+
+    return this.http.post<T>(url, body ?? {}, {
+      params: options ? httpParams : undefined,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
 }
