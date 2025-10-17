@@ -1,17 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SessionService } from '../../services/session/session';
 import { Router, RouterModule } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
-import { Target } from '../../complement/target/target'
-
 
 @Component({
-  selector: 'app-home',
-  imports: [RouterModule, LucideAngularModule, Target],
-  templateUrl: './home.html',
-  styleUrl: './home.scss'
+  selector: 'app-target',
+  imports: [],
+  templateUrl: './target.html',
+  styleUrl: './target.scss'
 })
-export class Home implements OnInit {
+export class Target implements OnInit{
+
   private session = inject(SessionService);
   private router = inject(Router);
 
@@ -29,10 +27,4 @@ export class Home implements OnInit {
     console.log('Usuario logueado:', this.user);
   }
 
-  logout() {
-    this.session.clearUser(); 
-    console.log('Sesión cerrada correctamente.');
-
-    this.router.navigate(['/login']);
-  }
 }
