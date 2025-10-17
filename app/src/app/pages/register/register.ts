@@ -4,10 +4,13 @@ import { RouterModule } from '@angular/router';
 import { auth } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { Loading } from '../../complement/loading/loading';
+
+
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -17,6 +20,7 @@ export class Register {
 
   errorMessage = '';
   successMessage = '';
+  isLoading = false;
 
   registerForm = this.fb.group({
     name: ['', Validators.required],
@@ -33,14 +37,18 @@ export class Register {
   onRegister() {
     this.errorMessage = '';
     this.successMessage = '';
+    this.isLoading = false;
 
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, completa todos los campos correctamente.';
       return;
     }
 
+
+
     const { name, last_name, email, document, password } = this.registerForm.value;
 
+    this.isLoading = true;
     this.auth.register(name!, last_name!, email!, document!, password!).subscribe({
       next: res => {
         console.log('Registro exitoso:', res);
@@ -50,6 +58,9 @@ export class Register {
       error: err => {
         console.error('Error al registrar:', err);
         this.errorMessage = this.getErrorMessage(err);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

@@ -4,22 +4,32 @@ import { Http } from '../services/http/http';
 import { APP_CONFIG } from '../app.config';
 import { catchError, throwError } from 'rxjs';
 
-interface LoginResponse {
+interface ILoginResponse {
   token?: string;
   message?: string;
 }
 
-interface RegisterResponse {
+interface IRegisterResponse {
   userId?: string;
   message?: string;
 }
 
-interface UpdateResponse {
+interface IUpdateResponse {
   userId?: string;
   message?: string;
 }
 
-interface UpdateGetResponse {
+interface IUpdateGetResponse {
+  userId?: string;
+  message?: string;
+}
+
+interface IGetCatalog {
+  userId?: string;
+  message?: string;
+}
+
+interface ICardResponse {
   userId?: string;
   message?: string;
 }
@@ -34,7 +44,7 @@ export function auth() {
   return {
     login: (email: string, password: string) => {
       const body = { email, password };
-      return httpService.post<LoginResponse>(`${config.apiBaseURL}/login`,  body ).pipe(
+      return httpService.post<ILoginResponse>(`${config.apiBaseURL}/login`,  body ).pipe(
         catchError(err => {
           console.error('Error en login:', err);
           return throwError(() => err);
@@ -44,7 +54,7 @@ export function auth() {
 
     register: (name: string, lastName: string, email: string, document: string, password: string) => {
       const body = { name, lastName, email, password, document };
-      return httpService.post<RegisterResponse>(`${config.apiBaseURL}/register`,  body ).pipe(
+      return httpService.post<IRegisterResponse>(`${config.apiBaseURL}/register`,  body ).pipe(
         catchError(err => {
           console.error('Error en register:', err);
           return throwError(() => err);
@@ -55,7 +65,7 @@ export function auth() {
     update: (address: string, phone: string, document: string) => {
       console.log('desde auth, document: ', document);
       const body = { address, phone};
-      return httpService.put<UpdateResponse>(`${config.apiBaseURL}/profile/${document}`,  body ).pipe(
+      return httpService.put<IUpdateResponse>(`${config.apiBaseURL}/profile/${document}`,  body ).pipe(
         catchError(err => {
           console.error('Error en actualizar:', err);
           return throwError(() => err);
@@ -65,7 +75,7 @@ export function auth() {
 
     updateGet: (document: string) => {
       console.log('desde auth, document: ', document);
-      return httpService.get<UpdateGetResponse>(`${config.apiBaseURL}/profile/${document}`, ).pipe(
+      return httpService.get<IUpdateGetResponse>(`${config.apiBaseURL}/profile/${document}`, ).pipe(
         catchError(err => {
           console.error('Error en actualizar:', err);
           return throwError(() => err);
@@ -74,7 +84,17 @@ export function auth() {
     }, 
 
     getCatalog: () => {
-      return httpService.get<UpdateGetResponse>(`${config.apiBaseCatalog}/catalog`, ).pipe(
+      return httpService.get<IGetCatalog>(`${config.apiBaseCatalog}/catalog`, ).pipe(
+        catchError(err => {
+          console.error('Error en actualizar:', err);
+          return throwError(() => err);
+        })
+      );
+    }, 
+
+    getCard:(cardid: string) => {
+      console.log('desde auth, cardid: ', cardid);
+      return httpService.get<ICardResponse>(`${config.apiBaseCard}/Transaction/card/${cardid}`, ).pipe( 
         catchError(err => {
           console.error('Error en actualizar:', err);
           return throwError(() => err);

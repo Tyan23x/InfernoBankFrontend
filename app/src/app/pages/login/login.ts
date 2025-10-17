@@ -31,7 +31,10 @@ export class Login {
   reloadPage() { window.location.reload(); }
 
   onLogin() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
+     return 
+    };
 
     const { email, password } = this.loginForm.value;
 
