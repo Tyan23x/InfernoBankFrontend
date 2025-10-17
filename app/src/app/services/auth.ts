@@ -71,6 +71,15 @@ export function auth() {
           return throwError(() => err);
         })
       );
+    }, 
+
+    getCatalog: () => {
+      return httpService.get<UpdateGetResponse>(`${config.apiBaseCatalog}/catalog`, ).pipe(
+        catchError(err => {
+          console.error('Error en actualizar:', err);
+          return throwError(() => err);
+        })
+      );
     }
   };
 }

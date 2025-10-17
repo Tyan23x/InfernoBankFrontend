@@ -1,21 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { SessionService } from '../../services/session/session';
 import { Router, RouterModule } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import { SessionService } from '../../services/session/session';
+import { auth } from '../../services/auth';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Target } from '../../complement/target/target'
+import { Card } from '../../complement/card/card'
+import { Loading } from '../../complement/loading/loading'
 
 
 @Component({
   selector: 'app-home',
-  imports: [RouterModule, LucideAngularModule, Target],
+  imports: [CommonModule, RouterModule, Target, Card, Loading],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
 export class Home implements OnInit {
   private session = inject(SessionService);
   private router = inject(Router);
+  private auth = auth();
 
+  errorMessage = '';
+  successMessage = '';
   user: any;
+  isLoading = false;
+  catalogData: any[] = [];
 
   ngOnInit() {
     this.user = this.session.getUser();
@@ -26,7 +35,24 @@ export class Home implements OnInit {
       return;
     }
 
-    console.log('Usuario logueado:', this.user);
+    this.isLoading = true
+
+    this.auth.getCatalog().subscribe({
+    next: (res: any) => {
+      console.log('Datos obtenidos del catalogo:', res);
+      this.catalogData = res.data || res;
+      const getCatalog = { ...this.user, data: this.catalogData };
+      localStorage.setItem('catalog', JSON.stringify(getCatalog));
+      
+    },
+    error: (err: any) => {
+      console.error('Error al obtener catalogo:', err);
+      this.errorMessage = this.getErrorMessage(err);
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
   }
 
   logout() {
@@ -34,5 +60,14 @@ export class Home implements OnInit {
     console.log('Sesión cerrada correctamente.');
 
     this.router.navigate(['/login']);
+  }
+
+  private getErrorMessage(err: any): string {
+    if (err.status === 400) return 'Datos inválidos. Verifica la información.';
+    if (err.status === 404) return 'No se encontró el recurso solicitado.';
+    if (err.status === 403) return 'No tienes permiso para acceder a este recurso.';
+    if (err.status === 409) return 'El usuario ya existe.';
+    if (err.status === 500) return 'Error interno del servidor. Intenta más tarde.';
+    return 'Ocurrió un error inesperado.';
   }
 }

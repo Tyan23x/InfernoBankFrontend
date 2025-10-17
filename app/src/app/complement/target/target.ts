@@ -18,13 +18,7 @@ export class Target implements OnInit{
   ngOnInit() {
     this.user = this.session.getUser();
 
-    if (!this.user) {
-      console.warn('No hay usuario logueado, redirigiendo al login...');
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    console.log('Usuario logueado:', this.user);
+    
   }
 
 }

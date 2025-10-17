@@ -5,12 +5,14 @@ import { provideHttpClient } from '@angular/common/http';
 
 export interface IAppConfig {
   apiBaseURL: string  
+  apiBaseCatalog: string
 }
 
 export const APP_CONFIG = new InjectionToken<IAppConfig>('app.config');
 
 const configValue: IAppConfig = {
   apiBaseURL: 'https://w7ykg0p614.execute-api.us-east-2.amazonaws.com/prod',
+  apiBaseCatalog: 'https://cbjzbu9fq5.execute-api.us-east-2.amazonaws.com/dev'
 };
 
 export const appConfig: ApplicationConfig = {

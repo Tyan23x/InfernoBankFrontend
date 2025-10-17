@@ -5,7 +5,7 @@
     --text-color: #e5e5e5;
     --font-family: "Fira Code", Consolas, "Courier New", Courier, monospace;
     --glitch-anim-duration: 0.5s;
-    width: 80vw;
+    overflow-y: auto;
 }
 
 .glitch-home-wrapper {
@@ -97,4 +97,12 @@
     opacity: 1;
     color: var(--bg-color);
     animation: glitch-anim var(--glitch-anim-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
 }

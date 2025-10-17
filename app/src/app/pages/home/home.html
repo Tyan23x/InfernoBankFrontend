@@ -25,9 +25,25 @@
     <div class="card-body">
       <h1>WELCOME_TO_INFERNO_BANK, {{ user?.data?.name || 'Usuario' }} </h1>
       <p>YOUR_TRUSTED_PARTNER_IN_THE_WORLD_OF_CRYPTOCURRENCIES</p>
-
+      <br>
       <div>
         <app-target></app-target>
+      </div>
+      <br>
+      <p>WHAT_DO_YOU_WANT_TO_DO_TODAY_?</p>
+      <br>
+      <div *ngIf="isLoading" class="alert alert-error glitch-form-wrapper">
+        <app-loading></app-loading>
+      </div>
+
+      <div *ngIf="!isLoading && catalogData.length > 0" class="cards-container">
+        <app-card *ngFor="let item of catalogData" [titulo]="item.servicio"
+          [cuerpo]="item.plan + ' - ' + item.proveedor"
+          [complemento]="'$' + item.precio_mensual + ' | ' + item.estado"></app-card>
+      </div>
+
+      <div *ngIf="!isLoading && catalogData.length === 0">
+        <p>No hay servicios disponibles.</p>
       </div>
 
     </div>
