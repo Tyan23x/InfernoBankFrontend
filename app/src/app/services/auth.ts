@@ -14,6 +14,18 @@ interface RegisterResponse {
   message?: string;
 }
 
+interface UpdateResponse {
+  userId?: string;
+  message?: string;
+}
+
+interface UpdateGetResponse {
+  userId?: string;
+  message?: string;
+}
+
+
+
 export function auth() {
   const http = inject(HttpClient);
   const config = inject(APP_CONFIG);
@@ -30,8 +42,8 @@ export function auth() {
       );
     },
 
-    register: (name: string, last_name: string, email: string, document: string, password: string) => {
-      const body = { name, last_name, email, password, document };
+    register: (name: string, lastName: string, email: string, document: string, password: string) => {
+      const body = { name, lastName, email, password, document };
       return httpService.post<RegisterResponse>(`${config.apiBaseURL}/register`,  body ).pipe(
         catchError(err => {
           console.error('Error en register:', err);
@@ -40,9 +52,20 @@ export function auth() {
       );
     },
 
-    update: (address: string, number: string) => {
-      const body = { address, number};
-      return httpService.put<RegisterResponse>(`${config.apiBaseURL}/profile `,  body ).pipe(
+    update: (address: string, phone: string, document: string) => {
+      console.log('desde auth, document: ', document);
+      const body = { address, phone};
+      return httpService.put<UpdateResponse>(`${config.apiBaseURL}/profile/${document}`,  body ).pipe(
+        catchError(err => {
+          console.error('Error en actualizar:', err);
+          return throwError(() => err);
+        })
+      );
+    }, 
+
+    updateGet: (document: string) => {
+      console.log('desde auth, document: ', document);
+      return httpService.get<UpdateGetResponse>(`${config.apiBaseURL}/profile/${document}`, ).pipe(
         catchError(err => {
           console.error('Error en actualizar:', err);
           return throwError(() => err);

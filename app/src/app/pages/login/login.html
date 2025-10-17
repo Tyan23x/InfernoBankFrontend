@@ -34,6 +34,10 @@
   </form>
 </div>
 
+<div *ngIf="isLoading" class="alert alert-error glitch-form-wrapper">
+  <app-loading></app-loading>
+</div>
+
 <div *ngIf="errorMessage" class="alert alert-error glitch-form-wrapper">
   {{ errorMessage }}
   <button class="submit-btn" data-text="RELOAD" (click)="reloadPage()">RELOAD</button>

@@ -5,10 +5,11 @@ import { auth } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SessionService } from '../../services/session/session';
+import { Loading } from '../../complement/loading/loading'
 
 @Component({ 
   selector: 'app-login', 
-  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading],
   templateUrl: './login.html',
   styleUrl: './login.scss' 
 })
@@ -20,6 +21,7 @@ export class Login {
 
   errorMessage = '';
   successMessage = '';
+  isLoading = false;
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -33,18 +35,22 @@ export class Login {
 
     const { email, password } = this.loginForm.value;
 
+    this.isLoading = true;
     this.auth.login(email!, password!).subscribe({
       next: res => {
         console.log('Login exitoso:', res);
-        this.session.setUser(res); // 👈 Guarda el usuario en el servicio
+        this.session.setUser(res); 
         this.successMessage = 'Login exitoso. Bienvenido de nuevo.';
 
-        setTimeout(() => this.router.navigate(['/home']), 1000);
+        setTimeout(() => this.router.navigate(['/home']), 500);
       },
       error: err => {
         console.error('Error al iniciar sesión:', err);
         this.errorMessage = this.getErrorMessage(err);
-      }
+      },
+      complete: () => {
+      this.isLoading = false;
+    }
     });
   }
 

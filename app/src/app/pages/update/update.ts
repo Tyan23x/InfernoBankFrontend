@@ -4,10 +4,11 @@ import { RouterModule, Router } from '@angular/router';
 import { auth } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {Loading } from '../../complement/loading/loading'
 
 @Component({
   selector: 'app-update',
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule, Loading],
   templateUrl: './update.html',
   styleUrl: './update.scss'
 })
@@ -19,33 +20,62 @@ export class Update implements OnInit {
   errorMessage = '';
   successMessage = '';
   user: any;
+  isLoading = false;
 
   updateForm = this.fb.group({
-    name: [{ value: '' }],
-    last_name: [{ value: '' }],
-    email: [{ value: '' }],
-    document: [{ value: '' }],
+    name: [{ value: '', disabled: true }],
+    last_name: [{ value: '', disabled: true  }],
+    email: [{ value: '', disabled: true  }],
+    document: [{ value: '', disabled: true  }],
     address: ['', Validators.required],
     phone: ['', Validators.required]
   });
 
   ngOnInit() {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      this.user = JSON.parse(savedUser);
+  const savedUser = localStorage.getItem('user');
+
+  if (!savedUser) {
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  this.user = JSON.parse(savedUser);
+  const document = this.user?.data?.document;
+
+  if (!document) {
+    this.errorMessage = 'No se encontró el identificador del usuario.';
+    return;
+  }
+
+  this.isLoading = true;
+
+  this.auth.updateGet(document).subscribe({
+    next: (res: any) => {
+      console.log('Datos obtenidos del perfil:', res);
+
+      const data = res.data || res;
 
       this.updateForm.patchValue({
-        name: this.user.data?.name || '',
-        last_name: this.user.data?.last_name || '',
-        email: this.user.data?.email || '',
-        document: this.user.data?.document || '',
-        address: this.user.data?.address || '',
-        phone: this.user.data?.phone || ''
+        name: data.name || '',
+        last_name: data.lastName || '',
+        email: data.email || '',
+        document: data.document || '',
+        address: data.address || '',
+        phone: data.phone || ''
       });
-    } else {
-      this.router.navigate(['/login']);
+
+      const updatedUser = { ...this.user, data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    },
+    error: (err: any) => {
+      console.error('Error al obtener perfil:', err);
+      this.errorMessage = this.getErrorMessage(err);
+    },
+    complete: () => {
+      this.isLoading = false;
     }
-  }
+  });
+}
 
   reloadPage() {
     window.location.reload();
@@ -61,8 +91,16 @@ export class Update implements OnInit {
     }
 
     const { address, phone } = this.updateForm.getRawValue();
+    const document = this.user?.data?.document;
 
-    this.auth.update(address!, phone!).subscribe({
+    if (!document) {
+    this.errorMessage = 'No se encontró el identificador del usuario.';
+    return;
+  }
+
+  this.isLoading = true;
+
+    this.auth.update(address!, phone!, document).subscribe({
       next: res => {
         console.log('Actualizado con éxito:', res);
         this.successMessage = 'Perfil actualizado con éxito.';
@@ -73,7 +111,10 @@ export class Update implements OnInit {
       error: err => {
         console.error('Error al actualizar:', err);
         this.errorMessage = this.getErrorMessage(err);
-      }
+      },
+      complete: () => {
+      this.isLoading = false;
+    }
     });
   }
 

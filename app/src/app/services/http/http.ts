@@ -8,8 +8,23 @@ import { firstValueFrom, Observable } from 'rxjs';
 export class Http {
   constructor(private http: HttpClient) {}
 
-  get<T>(url: string, options?: any) {
-    return this.http.get<T>(url, options);
+  get<T>(
+    url: string,
+    body?: any,
+    params?: { [key: string]: string }
+  ): Observable<T> {
+
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(key => {
+        httpParams = httpParams.set(key, params[key]);
+      });
+    }
+
+    return this.http.get<T>(url, {
+      params: params ? httpParams : undefined,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   post<T>(
@@ -34,18 +49,18 @@ export class Http {
   put<T>(
     url: string,
     body: any,
-    options?: any
+    params?: any
   ): Observable<T> {
 
     let httpParams = new HttpParams();
-    if (options){
-       Object.keys(options).forEach(key => {
-        httpParams = httpParams.set(key, options[key]);
+    if (params){
+       Object.keys(params).forEach(key => {
+        httpParams = httpParams.set(key, params[key]);
       });
     }
 
-    return this.http.post<T>(url, body ?? {}, {
-      params: options ? httpParams : undefined,
+    return this.http.put<T>(url, body ?? {}, {
+      params: params ? httpParams : undefined,
       headers: { 'Content-Type': 'application/json' }
     });
   }

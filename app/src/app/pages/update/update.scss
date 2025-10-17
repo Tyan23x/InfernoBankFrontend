@@ -98,3 +98,27 @@
     color: var(--bg-color);
     animation: glitch-anim var(--glitch-anim-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
 }
+
+.alert {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+
+  &.alert-error {
+    background-color: #000;
+    color: #00f2ea;
+    border: 1px solid #00f2ea;
+  }
+
+  &.alert-success {
+    background-color: #000;
+    color: #00f2ea;
+    border: 1px solid #00f2ea;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
