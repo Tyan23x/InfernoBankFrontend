@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SessionService } from '../../services/session/session';
 import { Loading } from '../../complement/loading/loading'
 
-@Component({ 
-  selector: 'app-login', 
+@Component({
+  selector: 'app-login',
   imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading],
   templateUrl: './login.html',
-  styleUrl: './login.scss' 
+  styleUrl: './login.scss'
 })
 export class Login {
   private fb = inject(FormBuilder);
-  private auth = auth();
+  private auth = inject(AuthService);
   private router = inject(Router);
   private session = inject(SessionService);
 
@@ -33,7 +33,7 @@ export class Login {
   onLogin() {
     if (this.loginForm.invalid) {
       this.errorMessage = 'Por favor, completa todos los campos correctamente.';
-     return 
+     return
     };
 
     const { email, password } = this.loginForm.value;
@@ -42,7 +42,7 @@ export class Login {
     this.auth.login(email!, password!).subscribe({
       next: res => {
         console.log('Login exitoso:', res);
-        this.session.setUser(res); 
+        this.session.setUser(res);
         this.successMessage = 'Login exitoso. Bienvenido de nuevo.';
 
         setTimeout(() => this.router.navigate(['/home']), 500);

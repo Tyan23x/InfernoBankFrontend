@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SessionService } from '../../services/session/session';
-import { auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Target } from '../../complement/target/target'
 import { Card } from '../../complement/card/card'
@@ -18,7 +18,7 @@ import { Loading } from '../../complement/loading/loading'
 export class Home implements OnInit {
   private session = inject(SessionService);
   private router = inject(Router);
-  private auth = auth();
+  private auth = inject(AuthService);
 
   errorMessage = '';
   successMessage = '';
@@ -43,7 +43,7 @@ export class Home implements OnInit {
       this.catalogData = res.data || res;
       const getCatalog = { ...this.user, data: this.catalogData };
       localStorage.setItem('catalog', JSON.stringify(getCatalog));
-      
+
     },
     error: (err: any) => {
       console.error('Error al obtener catalogo:', err);
@@ -56,7 +56,7 @@ export class Home implements OnInit {
   }
 
   logout() {
-    this.session.clearUser(); 
+    this.session.clearUser();
     console.log('Sesión cerrada correctamente.');
 
     this.router.navigate(['/login']);

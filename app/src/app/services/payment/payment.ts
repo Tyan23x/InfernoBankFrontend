@@ -25,25 +25,9 @@ export class Payment {
 
   constructor(private httpService: Http) {}
 
-  pay(){
-    const body: StartPaymentRequest = {
-      cardId: '565c7d30-c809-48dd-881c-a458b2e3e0e6',
-      service: {
-        id: 10,
-        categoria: 'Energía',
-        proveedor: 'Empresa Eléctrica Nacional',
-        servicio: 'Luz Residencial',
-        plan: 'Premium',
-        precio_mensual: 75000,
-        detalles: '300 kWh incluidos',
-        estado: 'Activo'
-      }
-    };
-
-    const response = this.httpService.post<any>(this.apiUrl, body);
+  pay( pago: StartPaymentRequest){
+    const response = this.httpService.post<any>(this.apiUrl, pago);
     console.log(response);
-
-
   }
 
 }

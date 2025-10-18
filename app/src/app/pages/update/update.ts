@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {Loading } from '../../complement/loading/loading'
@@ -14,7 +14,7 @@ import {Loading } from '../../complement/loading/loading'
 })
 export class Update implements OnInit {
   private fb = inject(FormBuilder);
-  private auth = auth();
+  private auth = inject(AuthService);
   private router = inject(Router);
 
   errorMessage = '';

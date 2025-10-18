@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SessionService } from '../../services/session/session';
 import { Router, RouterModule } from '@angular/router';
-import { auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -15,13 +15,13 @@ export class Target implements OnInit{
 
   private session = inject(SessionService);
   private router = inject(Router);
-  private auth = inject(auth);
+  private auth = inject(AuthService);
 
   user: any;
   errorMessage = '';
   successMessage = '';
   isLoading = false;
-  
+
   ngOnInit() {
     this.user = this.session.getUser();
 

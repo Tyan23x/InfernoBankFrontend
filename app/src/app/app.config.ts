@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 
 export interface IAppConfig {
-  apiBaseURL: string  
+  apiBaseURL: string
   apiBaseCatalog: string
   apiBaseCard: string
 }
@@ -14,7 +14,7 @@ export const APP_CONFIG = new InjectionToken<IAppConfig>('app.config');
 const configValue: IAppConfig = {
   apiBaseURL: 'https://w7ykg0p614.execute-api.us-east-2.amazonaws.com/prod',
   apiBaseCatalog: 'https://cbjzbu9fq5.execute-api.us-east-2.amazonaws.com/dev',
-  apiBaseCard: 'https://7a3snz44o7.execute-api.us-east-2.amazonaws.com/prod'
+  apiBaseCard: 'https://jhx5kjz4x1.execute-api.us-east-2.amazonaws.com/prod'
 };
 
 export const appConfig: ApplicationConfig = {
