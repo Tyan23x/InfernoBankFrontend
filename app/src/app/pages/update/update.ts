@@ -4,11 +4,12 @@ import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {Loading } from '../../complement/loading/loading'
+import { Loading } from '../../complement/loading/loading'
+import { Notification } from '../../complement/notification/notification'
 
 @Component({
   selector: 'app-update',
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule, Loading],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule, Loading, Notification],
   templateUrl: './update.html',
   styleUrl: './update.scss'
 })
@@ -86,7 +87,7 @@ export class Update implements OnInit {
     this.successMessage = '';
 
     if (this.updateForm.invalid) {
-      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
+      this.errorMessage = 'Please fill in all fields correctly.';
       return;
     }
 

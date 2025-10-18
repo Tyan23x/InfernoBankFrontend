@@ -1,38 +1,6 @@
-.glitch-home-wrapper {
-    --bg-color: #0d0d0d;
-    --primary-color: #00f2ea;
-    --secondary-color: #a855f7;
-    --text-color: #e5e5e5;
-    --font-family: "Fira Code", Consolas, "Courier New", Courier, monospace;
-    --glitch-anim-duration: 0.5s;
-    width: 80vw;
-}
-
-.glitch-home-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: var(--font-family);
-    background-color: #050505;
-}
-
-.glitch-home {
-        background-color: var(--bg-color);
-    width: 100%;
-    border: 1px solid rgba(0, 242, 234, 0.2);
-    box-shadow:
-        0 0 20px rgba(0, 242, 234, 0.1),
-        inset 0 0 10px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    margin: 1rem;
-}
-
-.card-body{
-    color: var(--primary-color);
-}
 
 .function-btn {
-    width: 8vw;
+    width: 7vw;
     background-color: transparent;
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
@@ -99,26 +67,10 @@
     animation: glitch-anim var(--glitch-anim-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
 }
 
-.alert {
-  margin-top: 1rem;
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
   padding: 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-
-  &.alert-error {
-    background-color: #000;
-    color: #00f2ea;
-    border: 1px solid #00f2ea;
-  }
-
-  &.alert-success {
-    background-color: #000;
-    color: #00f2ea;
-    border: 1px solid #00f2ea;
-  }
-}
-
-.disabled {
-  pointer-events: none;
-  opacity: 0.5;
 }

@@ -6,10 +6,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SessionService } from '../../services/session/session';
 import { Loading } from '../../complement/loading/loading'
+import { Notification } from '../../complement/notification/notification';
+
+
 
 @Component({
   selector: 'app-login',
-  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading],
+  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading, Notification],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
@@ -29,10 +32,11 @@ export class Login {
   });
 
   reloadPage() { window.location.reload(); }
+  closeAlert() { this.errorMessage = ''; }
 
   onLogin() {
     if (this.loginForm.invalid) {
-      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
+      this.errorMessage = 'Please fill in all fields correctly.';
      return
     };
 

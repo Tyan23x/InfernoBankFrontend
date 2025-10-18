@@ -5,12 +5,12 @@ import { AuthService } from '../../services/auth';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Loading } from '../../complement/loading/loading';
-
+import { Notification } from '../../complement/notification/notification';
 
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading],
+  imports: [RouterModule, ReactiveFormsModule, HttpClientModule, CommonModule, Loading, Notification],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -40,7 +40,7 @@ export class Register {
     this.isLoading = false;
 
     if (this.registerForm.invalid) {
-      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
+      this.errorMessage = 'Please fill in all fields correctly.';
       return;
     }
 

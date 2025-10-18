@@ -1,0 +1,53 @@
+.error {
+    --primary-color: #00f2ea;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    background-color: #000; 
+    border: 1px solid #00f2ea;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px -3px #111;
+}
+
+.error__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.error__icon path {
+  fill: var(--primary-color);
+}
+
+.error__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--primary-color);
+}
+
+.error__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.error__close path {
+  fill: var(--primary-color);
+}
+
+.error {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.error.closing {
+  opacity: 0;
+}
